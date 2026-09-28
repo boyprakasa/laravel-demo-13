@@ -34,6 +34,7 @@ class BookRequest extends FormRequest
             'writer.required' => 'Penulis wajib diisi.',
             'publication_year.required' => 'Tahun terbit wajib diisi.',
             'publication_year.integer' => 'Tahun terbit harus berupa angka.',
+            'publication_year.between' => 'Tahun terbit harus antara 1000 dan tahun saat ini.',
         ];
     }
 }
