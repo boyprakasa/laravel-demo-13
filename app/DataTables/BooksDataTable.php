@@ -3,7 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Book;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -52,7 +54,26 @@ class BooksDataTable extends DataTable
         return $this->builder()
             ->setTableId('books-table')
             ->columns($this->getColumns())
-            ->minifiedAjax();
+            ->minifiedAjax()
+            ->buttons([
+                Button::make('excel')
+                    ->text('Excel')
+                    ->addClass('btn btn-success btn-sm'),
+                Button::make('csv')
+                    ->text('CSV')
+                    ->addClass('btn btn-secondary btn-sm'),
+                Button::make('pdf')
+                    ->text('PDF')
+                    ->addClass('btn btn-danger btn-sm'),
+            ])
+            ->parameters([
+                'layout' => [
+                    'topStart'    => ['pageLength', 'buttons'],
+                    'topEnd'      => 'search',
+                    'bottomStart' => 'info',
+                    'bottomEnd'   => 'paging',
+                ],
+            ]);
     }
 
     /**
@@ -64,7 +85,9 @@ class BooksDataTable extends DataTable
             Column::make('DT_RowIndex')
                 ->title('#')
                 ->searchable(false)
-                ->orderable(false),
+                ->orderable(false)
+                ->exportable(false)
+                ->printable(false),
             Column::make('title')
                 ->title('Judul'),
             Column::make('writer')
@@ -72,7 +95,10 @@ class BooksDataTable extends DataTable
             Column::make('publication_year')
                 ->title('Tahun'),
             Column::make('description')
-                ->title('Deskripsi'),
+                ->title('Deskripsi')
+                ->addClass('text-wrap')
+                ->exportable(false)
+                ->printable(false),
             Column::make('created_at')
                 ->title('Dibuat'),
             Column::make('updated_at')
@@ -92,5 +118,20 @@ class BooksDataTable extends DataTable
     protected function filename(): string
     {
         return 'Books_' . date('YmdHis');
+    }
+
+    public function pdf(): BinaryFileResponse
+    {
+        $data = $this->getDataForPrint();
+
+        $path = tempnam(sys_get_temp_dir(), 'books_pdf_');
+
+        Pdf::loadView('book.pdf', compact('data'))
+            ->setPaper('a4', 'landscape')
+            ->save($path);
+
+        return response()
+            ->download($path, $this->getFilename() . '.pdf')
+            ->deleteFileAfterSend(true);
     }
 }

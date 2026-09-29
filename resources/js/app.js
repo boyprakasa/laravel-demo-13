@@ -13,6 +13,11 @@ import DataTable from "datatables.net-bs5";
 import "datatables.net-buttons-bs5";
 import "datatables.net-select-bs5";
 import "laravel-datatables-vite";
+import JSZip from "jszip";
+import "datatables.net-buttons-bs5";
+import "datatables.net-buttons/js/buttons.html5.mjs";
+
+DataTable.Buttons.jszip(JSZip);
 
 window.DataTable = DataTable;
 window.Alpine = Alpine;
