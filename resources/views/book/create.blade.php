@@ -7,10 +7,10 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('book.store') }}" method="POST">
+            <form action="{{ route('book.store') }}" method="POST" class="ajax-form" data-reset>
                 @csrf
                 @include('book._form')
-                <button class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="{{ route('book.index') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>

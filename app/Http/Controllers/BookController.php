@@ -2,27 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\BooksDataTable;
 use App\Http\Requests\BookRequest;
 use App\Models\Book;
-use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(BooksDataTable $dataTable)
     {
-        $book = Book::query()
-            ->when($request->q, function ($query, $q) {
-                $query->where('title', 'like', "%{$q}%")
-                    ->orWhere('writer', 'like', "%{$q}%");
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
-
-        return view('book.index', compact('book'));
+        return $dataTable->render('book.index');
     }
 
     /**
@@ -40,8 +31,10 @@ class BookController extends Controller
     {
         Book::create($request->validated());
 
-        return redirect()->route('book.index')
-            ->with('success', 'Buku berhasil ditambahkan.');
+        return response()->json([
+            'message' => 'Buku berhasil ditambahkan.',
+            'redirect' => route('book.index'),
+        ]);
     }
 
     /**
@@ -67,8 +60,10 @@ class BookController extends Controller
     {
         $book->update($request->validated());
 
-        return redirect()->route('book.index')
-            ->with('success', 'Buku berhasil diperbarui.');
+        return response()->json([
+            'message'  => 'Buku berhasil diperbarui.',
+            'redirect' => route('book.index'),
+        ]);
     }
 
     /**
@@ -78,7 +73,6 @@ class BookController extends Controller
     {
         $book->delete();
 
-        return redirect()->route('book.index')
-            ->with('success', 'Buku berhasil dihapus.');
+        return response()->json(['message' => 'Buku berhasil dihapus.']);
     }
 }

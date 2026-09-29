@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
 
-    <head>
+<head>
     <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Perpustakaan Mini')</title>
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('scripts')
-    </head>
+</head>
 
 <body class="bg-light">
     <nav class="navbar navbar-dark bg-dark mb-4">
@@ -25,6 +25,6 @@
     <main class="container pb-4">
         @yield('content')
     </main>
-    </body>
+</body>
 
 </html>
