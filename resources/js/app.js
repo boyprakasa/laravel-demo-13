@@ -12,6 +12,7 @@ window.toast = toast;
 import DataTable from "datatables.net-bs5";
 import "datatables.net-buttons-bs5";
 import "datatables.net-select-bs5";
+import "datatables.net-buttons/js/buttons.colVis";
 import "laravel-datatables-vite";
 import JSZip from "jszip";
 import "datatables.net-buttons-bs5";

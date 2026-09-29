@@ -56,6 +56,10 @@ class BooksDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->buttons([
+                Button::make('colvis')
+                    ->text('Kolom')
+                    ->addClass('btn btn-outline-secondary btn-sm text-white')
+                    ->columns(':not(.no-colvis)'),
                 Button::make('excel')
                     ->text('Excel')
                     ->addClass('btn btn-success btn-sm'),
@@ -87,7 +91,8 @@ class BooksDataTable extends DataTable
                 ->searchable(false)
                 ->orderable(false)
                 ->exportable(false)
-                ->printable(false),
+                ->printable(false)
+                ->addClass('text-center no-colvis'),
             Column::make('title')
                 ->title('Judul'),
             Column::make('writer')
@@ -98,9 +103,11 @@ class BooksDataTable extends DataTable
                 ->title('Deskripsi')
                 ->addClass('text-wrap')
                 ->exportable(false)
-                ->printable(false),
+                ->printable(false)
+                ->visible(false),
             Column::make('created_at')
-                ->title('Dibuat'),
+                ->title('Dibuat')
+                ->visible(false),
             Column::make('updated_at')
                 ->title('Diubah'),
             Column::computed('action')
@@ -108,7 +115,7 @@ class BooksDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center'),
+                ->addClass('text-center no-colvis'),
         ];
     }
 
