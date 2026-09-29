@@ -28,6 +28,7 @@
     "dependencies": {
         "datatables.net-bs5": "^3.1.2",
         "datatables.net-buttons-bs5": "^4.1.2",
-        "datatables.net-select-bs5": "^4.1.1"
+        "datatables.net-select-bs5": "^4.1.1",
+        "sweetalert2": "^11.26.25"
     }
 }
