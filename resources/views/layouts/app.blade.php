@@ -14,6 +14,7 @@
 
     <!-- Tampilkan komponen navigasi -->
     <x-nav-menu :items="[
+        ['label' => 'Beranda', 'url' => '/'],
         [
             'label' => 'Buku',
             'children' => [
