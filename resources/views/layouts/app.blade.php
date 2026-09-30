@@ -11,16 +11,17 @@
 </head>
 
 <body class="bg-light">
-    <nav class="navbar navbar-dark bg-dark mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('book.index') }}">📚 Perpustakaan Mini</a>
 
-            <form action="{{ route('logout') }}" method="POST" class="d-flex">
-                @csrf
-                <button type="submit" class="btn btn-danger">Logout</button>
-            </form>
-        </div>
-    </nav>
+    <!-- Tampilkan komponen navigasi -->
+    <x-nav-menu :items="[
+        [
+            'label' => 'Buku',
+            'children' => [
+                ['label' => 'Daftar Buku', 'route' => 'book.index'],
+                ['label' => 'Tambah Buku', 'route' => 'book.create'],
+            ],
+        ],
+    ]" />
 
     <main class="container pb-4">
         @yield('content')
