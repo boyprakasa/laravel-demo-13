@@ -43,7 +43,9 @@ class BooksDataTable extends DataTable
      */
     public function query(Book $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model
+            ->newQuery()
+            ->with('category');
     }
 
     /**
@@ -99,6 +101,8 @@ class BooksDataTable extends DataTable
                 ->title('Penulis'),
             Column::make('publication_year')
                 ->title('Tahun'),
+            Column::make('category.name')
+                ->title('Kategori'),
             Column::make('description')
                 ->title('Deskripsi')
                 ->addClass('text-wrap')

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,6 +23,7 @@ class BookFactory extends Factory
             'writer' => fake()->name(),
             'publication_year' => fake()->numberBetween(1990, 2025),
             'description' => fake()->paragraph(),
+            'category_id' => Category::factory(),
         ];
     }
 }

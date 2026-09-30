@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\BooksDataTable;
 use App\Http\Requests\BookRequest;
 use App\Models\Book;
+use App\Models\Category;
 
 class BookController extends Controller
 {
@@ -21,7 +22,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('book.create');
+        $categories = Category::all();
+        return view('book.create', compact('categories'));
     }
 
     /**
@@ -50,7 +52,8 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('book.edit', compact('book'));
+        $categories = Category::all();
+        return view('book.edit', compact('book', 'categories'));
     }
 
     /**

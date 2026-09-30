@@ -24,6 +24,7 @@ class BookRequest extends FormRequest
             'writer' => ['required', 'string', 'max:255'],
             'publication_year' => ['required', 'integer', 'between:1000,' . date('Y')],
             'description' => ['nullable', 'string'],
+            'category_id' => ['required', 'exists:categories,id'],
         ];
     }
 
@@ -35,6 +36,8 @@ class BookRequest extends FormRequest
             'publication_year.required' => 'Tahun terbit wajib diisi.',
             'publication_year.integer' => 'Tahun terbit harus berupa angka.',
             'publication_year.between' => 'Tahun terbit harus antara 1000 dan tahun saat ini.',
+            'category_id.required' => 'Kategori wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak valid.',
         ];
     }
 }
