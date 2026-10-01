@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Author;
 use App\Models\Book;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -32,6 +33,16 @@ class BooksDataTable extends DataTable
             })
             ->filterColumn('authors', function ($query, $keyword) {
                 $query->whereHas('authors', fn($q) => $q->where('name', 'like', "%{$keyword}%"));
+            })
+            ->orderColumn('authors', function ($query, $order) {
+                $query->orderBy(
+                    Author::select('authors.name')
+                        ->join('author_book', 'authors.id', '=', 'author_book.author_id')
+                        ->whereColumn('author_book.book_id', 'books.id')
+                        ->orderBy('authors.name')
+                        ->limit(1),
+                    $order
+                );
             })
             ->addColumn('action', 'book.action')
             ->editColumn('created_at', function ($query) {
