@@ -20,7 +20,6 @@ class BookFactory extends Factory
     {
         return [
             'title' => fake()->sentence(3),
-            'writer' => fake()->name(),
             'publication_year' => fake()->numberBetween(1990, 2025),
             'description' => fake()->paragraph(),
             'category_id' => Category::factory(),

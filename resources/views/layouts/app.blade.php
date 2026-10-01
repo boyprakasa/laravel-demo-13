@@ -16,6 +16,7 @@
     <x-nav-menu :items="[
         ['label' => 'Beranda', 'url' => '/'],
         ['label' => 'Kategori', 'route' => 'category.index'],
+        ['label' => 'Penulis', 'route' => 'author.index'],
         [
             'label' => 'Buku',
             'children' => [
