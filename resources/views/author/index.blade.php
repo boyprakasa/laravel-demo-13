@@ -16,7 +16,9 @@
             </div>
         </div>
         <div class="card-body">
-            {{ $dataTable->table(['class' => 'table table-striped table-bordered w-100']) }}
+            <div class="table-responsive">
+                {{ $dataTable->table(['class' => 'table table-striped table-bordered w-100']) }}
+            </div>
         </div>
     </div>
 
