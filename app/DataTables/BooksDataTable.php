@@ -25,6 +25,14 @@ class BooksDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->addColumn('authors', function ($book) {
+                return $book->authors
+                    ->map(fn($author) => '<span class="badge bg-primary me-1">' . e($author->name) . '</span>')
+                    ->implode('');
+            })
+            ->filterColumn('authors', function ($query, $keyword) {
+                $query->whereHas('authors', fn($q) => $q->where('name', 'like', "%{$keyword}%"));
+            })
             ->addColumn('action', 'book.action')
             ->editColumn('created_at', function ($query) {
                 return format_datetime($query->created_at);
@@ -32,7 +40,7 @@ class BooksDataTable extends DataTable
             ->editColumn('updated_at', function ($query) {
                 return format_datetime($query->updated_at);
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'authors'])
             ->setRowId('id');
     }
 
@@ -45,7 +53,7 @@ class BooksDataTable extends DataTable
     {
         return $model
             ->newQuery()
-            ->with('category');
+            ->with(['category', 'authors']);
     }
 
     /**
@@ -97,8 +105,9 @@ class BooksDataTable extends DataTable
                 ->addClass('text-center no-colvis'),
             Column::make('title')
                 ->title('Judul'),
-            Column::make('writer')
-                ->title('Penulis'),
+            Column::make('authors')
+                ->title('Penulis')
+                ->searchable(true),
             Column::make('publication_year')
                 ->title('Tahun'),
             Column::make('category.name')

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,14 +17,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
+        // Buat 5 kategori
         Category::factory(5)->create();
-        Book::factory(125)->create();
+
+        // Buat 10 penulis
+        Author::factory(10)->create();
+
+        // Buat 25 buku dan asignakan penulis secara acak
+        Book::factory(25)->create()->each(function ($book) {
+            // Pilih 1-3 penulis secara acak untuk setiap buku
+            $book->authors()->attach(
+                Author::inRandomOrder()->limit(rand(1, 3))->pluck('id')
+            );
+        });
     }
 }

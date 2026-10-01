@@ -8,10 +8,17 @@
 </div>
 
 <div class="mb-3">
-    <label for="writer" class="form-label">Penulis</label>
-    <input type="text" id="writer" name="writer" value="{{ old('writer', $book->writer ?? '') }}"
-        class="form-control @error('writer') is-invalid @enderror">
-    @error('writer')
+    <label class="form-label">Penulis</label>
+    <div>
+        @foreach ($authors as $author)
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="author_ids[]" value="{{ $author->id }}"
+                    {{ in_array($author->id, old('author_ids', isset($book) ? $book->authors->pluck('id')->toArray() : [])) ? 'checked' : '' }}>
+                <label class="form-check-label">{{ $author->name }}</label>
+            </div>
+        @endforeach
+    </div>
+    @error('author_ids')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>

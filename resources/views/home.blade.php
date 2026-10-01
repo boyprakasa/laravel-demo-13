@@ -48,7 +48,7 @@
                             @endif
                             @if (Route::has('author.index'))
                                 <a href="{{ route('author.index') }}" class="btn btn-outline-secondary">
-                                    � Penulis
+                                    👤 Kelola Penulis
                                 </a>
                             @endif
                         </div>

@@ -21,10 +21,11 @@ class BookRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'writer' => ['required', 'string', 'max:255'],
             'publication_year' => ['required', 'integer', 'between:1000,' . date('Y')],
             'description' => ['nullable', 'string'],
             'category_id' => ['required', 'exists:categories,id'],
+            'author_ids' => ['array'],
+            'author_ids.*' => ['exists:authors,id'],
         ];
     }
 
@@ -32,12 +33,12 @@ class BookRequest extends FormRequest
     {
         return [
             'title.required' => 'Judul wajib diisi.',
-            'writer.required' => 'Penulis wajib diisi.',
             'publication_year.required' => 'Tahun terbit wajib diisi.',
             'publication_year.integer' => 'Tahun terbit harus berupa angka.',
             'publication_year.between' => 'Tahun terbit harus antara 1000 dan tahun saat ini.',
             'category_id.required' => 'Kategori wajib dipilih.',
             'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+            'author_ids.*.exists' => 'Penulis yang dipilih tidak valid.',
         ];
     }
 }

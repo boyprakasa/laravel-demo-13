@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\BooksDataTable;
 use App\Http\Requests\BookRequest;
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
 
@@ -23,7 +24,8 @@ class BookController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('book.create', compact('categories'));
+        $authors = Author::orderBy('name')->get();
+        return view('book.create', compact('categories', 'authors'));
     }
 
     /**
@@ -31,7 +33,16 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        Book::create($request->validated());
+        $validated = $request->validated();
+
+        // Ambil author_ids sebelum membuat buku
+        $authorIds = $validated['author_ids'] ?? [];
+        unset($validated['author_ids']);
+
+        $book = Book::create($validated);
+
+        // Sinkronkan penulis
+        $book->authors()->sync($authorIds);
 
         return response()->json([
             'message' => 'Buku berhasil ditambahkan.',
@@ -53,7 +64,8 @@ class BookController extends Controller
     public function edit(Book $book)
     {
         $categories = Category::all();
-        return view('book.edit', compact('book', 'categories'));
+        $authors = Author::orderBy('name')->get();
+        return view('book.edit', compact('book', 'categories', 'authors'));
     }
 
     /**
@@ -61,7 +73,16 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        $book->update($request->validated());
+        $validated = $request->validated();
+
+        // Ambil author_ids sebelum memperbarui buku
+        $authorIds = $validated['author_ids'] ?? [];
+        unset($validated['author_ids']);
+
+        $book->update($validated);
+
+        // Sinkronkan penulis
+        $book->authors()->sync($authorIds);
 
         return response()->json([
             'message'  => 'Buku berhasil diperbarui.',
