@@ -22,14 +22,23 @@ class AuthorsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
             ->addIndexColumn()
+
+            ->addColumn('books_count', function ($query) {
+                return $query->books()->count();
+            })
+
             ->addColumn('action', 'author.action')
+
             ->editColumn('created_at', function ($query) {
                 return format_datetime($query->created_at);
             })
+
             ->editColumn('updated_at', function ($query) {
                 return format_datetime($query->updated_at);
             })
+
             ->setRowId('id');
     }
 
@@ -70,20 +79,35 @@ class AuthorsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
             Column::make('DT_RowIndex')
                 ->title('#')
                 ->searchable(false)
                 ->orderable(false)
                 ->exportable(false)
                 ->printable(false),
-            Column::make('name'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+
+            Column::make('name')
+                ->title('Nama'),
+
+            Column::make('books_count')
+                ->title('Jumlah Buku')
+                ->searchable(false),
+
+            Column::make('created_at')
+                ->title('Dibuat')
+                ->hidden(),
+
+            Column::make('updated_at')
+                ->title('Diperbarui')
+                ->hidden(),
+
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
+
         ];
     }
 
