@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         // Member::factory(15)->create();
 
         // Buat 30 pinjaman aktif
-        Loan::factory(500)->create()->each(function ($loan) {
+        Loan::factory(100)->create()->each(function ($loan) {
             // Set status berdasarkan tanggal
             if (Carbon::parse($loan->expected_return_date)->isPast()) {
                 $loan->status = 'returned';
