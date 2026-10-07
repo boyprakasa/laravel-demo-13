@@ -21,12 +21,8 @@ class LoanFactory extends Factory
     public function definition(): array
     {
         return [
-            'member_id' => Member::factory(),
-            'book_id' => Book::factory()
-                ->hasAttached(
-                    Author::factory()
-                        ->count(rand(1, 3))
-                ),
+            'member_id' => Member::inRandomOrder()->first()->id,
+            'book_id' => Book::inRandomOrder()->first()->id,
             'loan_date' => fake()->dateTimeBetween('-6 months', 'now'),
             'expected_return_date' => fake()->dateTimeBetween('-5 months', 'now'),
             'actual_return_date' => fake()->optional()->dateTimeBetween('-4 months', 'now'),
