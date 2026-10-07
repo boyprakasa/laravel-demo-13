@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             $loan->expected_return_date = $loan->loan_date->copy()->addDays(14);
             $loan->actual_return_date = null;
             $loan->status = 'on_loan';
-            $loan->fine = 0;
+            $loan->fine = $loan->calculateFine();
             $loan->save();
         });
     }
