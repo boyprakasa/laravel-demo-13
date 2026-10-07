@@ -19,10 +19,10 @@ class BookFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->sentence(3),
+            'title' => fake()->sentence(4),
             'publication_year' => fake()->numberBetween(1990, 2025),
-            'description' => fake()->paragraph(),
-            'category_id' => Category::factory(),
+            'description' => fake()->paragraph(3),
+            'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }
