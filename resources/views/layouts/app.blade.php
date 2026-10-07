@@ -25,6 +25,7 @@
             ],
         ],
         ['label' => 'Anggota', 'route' => 'member.index'],
+        ['label' => 'Peminjaman', 'route' => 'loan.index'],
     ]" />
 
     <main class="container pb-4">
