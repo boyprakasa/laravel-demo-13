@@ -32,7 +32,6 @@
 
 <div class="mb-3">
     <label for="loan_date" class="form-label">Tanggal Pinjam</label>
-    {{ $loan->loan_date }}
     <input type="date" id="loan_date" name="loan_date"
         value="{{ old('loan_date', isset($loan) ? $loan->loan_date->format('Y-m-d') : '') }}"
         class="form-control @error('loan_date') is-invalid @enderror">
