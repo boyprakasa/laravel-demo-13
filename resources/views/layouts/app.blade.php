@@ -24,6 +24,7 @@
                 ['label' => 'Tambah Buku', 'route' => 'book.create'],
             ],
         ],
+        ['label' => 'Anggota', 'route' => 'member.index'],
     ]" />
 
     <main class="container pb-4">
