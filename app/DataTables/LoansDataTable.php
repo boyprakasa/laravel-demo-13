@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Author;
+use App\Models\Loan;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,12 +12,12 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class AuthorsDataTable extends DataTable
+class LoansDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
      *
-     * @param QueryBuilder<Author> $query Results from query() method.
+     * @param QueryBuilder<Loan> $query Results from query() method.
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
@@ -25,11 +25,19 @@ class AuthorsDataTable extends DataTable
 
             ->addIndexColumn()
 
-            ->addColumn('books_count', function ($query) {
-                return $query->books()->count();
+            ->addColumn('action', 'loan.action')
+
+            ->editColumn('loan_date', function ($query) {
+                return format_date($query->loan_date);
             })
 
-            ->addColumn('action', 'author.action')
+            ->editColumn('expected_return_date', function ($query) {
+                return format_date($query->expected_return_date);
+            })
+
+            ->editColumn('actual_return_date', function ($query) {
+                return $query->actual_return_date ? format_date($query->actual_return_date) : '-';
+            })
 
             ->editColumn('created_at', function ($query) {
                 return format_datetime($query->created_at);
@@ -45,9 +53,9 @@ class AuthorsDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      *
-     * @return QueryBuilder<Author>
+     * @return QueryBuilder<Loan>
      */
-    public function query(Author $model): QueryBuilder
+    public function query(Loan $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -58,7 +66,7 @@ class AuthorsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('authors-table')
+            ->setTableId('loans-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1)
@@ -87,20 +95,34 @@ class AuthorsDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false),
 
-            Column::make('name')
-                ->title('Nama'),
+            // Column::make('member.name')
+            //     ->title('Nama'),
 
-            Column::make('books_count')
-                ->title('Jumlah Buku')
-                ->searchable(false),
+            // Column::make('book.title')
+            //     ->title('Judul Buku'),
+
+            Column::make('loan_date')
+                ->title('Tanggal Peminjaman'),
+
+            Column::make('expected_return_date')
+                ->title('Tanggal Pengembalian'),
+
+            Column::make('actual_return_date')
+                ->title('Tanggal Dikembalikan'),
+
+            Column::make('status')
+                ->title('Status'),
+
+            Column::make('fine')
+                ->title('Denda'),
 
             Column::make('created_at')
                 ->title('Dibuat')
-                ->hidden(),
+                ->visible(false),
 
             Column::make('updated_at')
                 ->title('Diperbarui')
-                ->hidden(),
+                ->visible(false),
 
             Column::computed('action')
                 ->exportable(false)
@@ -116,6 +138,6 @@ class AuthorsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Authors_' . date('YmdHis');
+        return 'Loans_' . date('YmdHis');
     }
 }

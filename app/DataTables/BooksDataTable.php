@@ -25,7 +25,9 @@ class BooksDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
             ->addIndexColumn()
+
             ->addColumn('authors', function ($book) {
                 return $book->authors
                     ->map(fn($author) => '<span class="badge bg-primary me-1">' . e($author->name) . '</span>')
@@ -44,14 +46,19 @@ class BooksDataTable extends DataTable
                     $order
                 );
             })
+
             ->addColumn('action', 'book.action')
+
             ->editColumn('created_at', function ($query) {
                 return format_datetime($query->created_at);
             })
+
             ->editColumn('updated_at', function ($query) {
                 return format_datetime($query->updated_at);
             })
+
             ->rawColumns(['action', 'authors'])
+
             ->setRowId('id');
     }
 
@@ -114,21 +121,27 @@ class BooksDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false)
                 ->addClass('text-center no-colvis'),
+
             Column::make('title')
                 ->title('Judul'),
+
             Column::make('authors')
                 ->title('Penulis')
                 ->searchable(true),
+
             Column::make('publication_year')
                 ->title('Tahun'),
+
             Column::make('category.name')
                 ->title('Kategori'),
+
             Column::make('description')
                 ->title('Deskripsi')
                 ->addClass('text-wrap')
                 ->exportable(false)
                 ->printable(false)
                 ->visible(false),
+
             Column::make('created_at')
                 ->title('Dibuat')
                 ->visible(false),
@@ -140,6 +153,7 @@ class BooksDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center no-colvis'),
+
         ];
     }
 

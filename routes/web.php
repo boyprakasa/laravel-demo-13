@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +21,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::resource('category', CategoryController::class);
 Route::resource('book', BookController::class);
 Route::resource('author', AuthorController::class);
+Route::resource('member', MemberController::class);
+Route::resource('loan', LoanController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
