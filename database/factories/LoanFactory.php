@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Loan;
 use App\Models\Member;
@@ -21,7 +22,11 @@ class LoanFactory extends Factory
     {
         return [
             'member_id' => Member::factory(),
-            'book_id' => Book::factory(),
+            'book_id' => Book::factory()
+                ->hasAttached(
+                    Author::factory()
+                        ->count(rand(1, 3))
+                ),
             'loan_date' => fake()->dateTimeBetween('-6 months', 'now'),
             'expected_return_date' => fake()->dateTimeBetween('-5 months', 'now'),
             'actual_return_date' => fake()->optional()->dateTimeBetween('-4 months', 'now'),

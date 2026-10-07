@@ -15,23 +15,23 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Buat 5 kategori
-        Category::factory(5)->create();
+        // Category::factory(5)->create();
 
         // Buat 10 penulis
-        Author::factory(10)->create();
+        // Author::factory(10)->create();
 
         // Buat 25 buku dan asignkan penulis secara acak
-        Book::factory(25)->create()->each(function ($book) {
-            $book->authors()->attach(
-                Author::inRandomOrder()->limit(rand(1, 3))->pluck('id')
-            );
-        });
+        // Book::factory(25)->create()->each(function ($book) {
+        //     $book->authors()->attach(
+        //         Author::inRandomOrder()->limit(rand(1, 3))->pluck('id')
+        //     );
+        // });
 
         // Buat 15 anggota
-        Member::factory(15)->create();
+        // Member::factory(15)->create();
 
         // Buat 30 pinjaman aktif
-        Loan::factory(20)->create()->each(function ($loan) {
+        Loan::factory(500)->create()->each(function ($loan) {
             // Set status berdasarkan tanggal
             if (Carbon::parse($loan->expected_return_date)->isPast()) {
                 $loan->status = 'returned';
