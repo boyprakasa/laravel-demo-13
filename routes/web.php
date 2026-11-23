@@ -10,7 +10,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', [HomeController::class, 'index'])->name('home');
+    Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::resource('category', CategoryController::class);
     Route::resource('book', BookController::class);
     Route::resource('author', AuthorController::class);
