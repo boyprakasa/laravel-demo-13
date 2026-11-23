@@ -53,7 +53,7 @@
 <div class="mb-3">
     <label for="actual_return_date" class="form-label">Tanggal Pengembalian Sejati</label>
     <input type="date" id="actual_return_date" name="actual_return_date"
-        value="{{ old('actual_return_date', isset($loan) ? $loan->actual_return_date->format('Y-m-d') : '') }}"
+        value="{{ old('actual_return_date', isset($loan->actual_return_date) ? $loan->actual_return_date->format('Y-m-d') : '') }}"
         class="form-control @error('actual_return_date') is-invalid @enderror">
     @error('actual_return_date')
         <div class="invalid-feedback">{{ $message }}</div>
