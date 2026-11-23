@@ -3,109 +3,106 @@
 @section('title', 'Pengaturan Profil')
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-12 col-lg-9">
-            <h1 class="h4 fw-bold mb-4">Pengaturan Profil</h1>
+    <h1 class="h4 fw-bold mb-4">Pengaturan Profil</h1>
 
-            <x-alert />
-
-            <!-- 1. Kartu Informasi Profil (2 Kolom Sejajar) -->
-            <div class="card border-0 shadow-sm rounded-4 mb-4">
-                <div class="card-body p-4">
+    <div class="row g-4">
+        <!-- Kolom Kiri (col-md-6): Informasi Profil -->
+        <div class="col-12 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4 d-flex flex-column">
                     <h2 class="h5 fw-semibold mb-1">Informasi Profil</h2>
                     <p class="text-muted small mb-4">Perbarui nama lengkap dan alamat email akun Anda.</p>
 
-                    <form action="{{ route('profile.update') }}" method="POST">
+                    <form action="{{ route('profile.update') }}" method="POST" class="d-flex flex-column flex-grow-1">
                         @csrf
                         @method('PATCH')
 
-                        <div class="row g-3 mb-4">
-                            <div class="col-12 col-md-6">
-                                <label for="name" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    id="name" name="name" value="{{ old('name', auth()->user()->name) }}"
-                                    required />
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <label for="email" class="form-label">Alamat Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" value="{{ old('email', auth()->user()->email) }}"
-                                    required />
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                name="name" value="{{ old('name', auth()->user()->name) }}" required />
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <div class="mb-4">
+                            <label for="email" class="form-label">Alamat Email</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                name="email" value="{{ old('email', auth()->user()->email) }}" required />
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mt-auto">
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
                     </form>
                 </div>
             </div>
+        </div>
 
-            <!-- 2. Kartu Ubah Kata Sandi (Kolom Terbatas & Password Baru Bersebelahan) -->
-            <div class="card border-0 shadow-sm rounded-4 mb-4">
-                <div class="card-body p-4">
+        <!-- Kolom Kanan (col-md-6): Perbarui Kata Sandi -->
+        <div class="col-12 col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4 d-flex flex-column">
                     <h2 class="h5 fw-semibold mb-1">Perbarui Kata Sandi</h2>
-                    <p class="text-muted small mb-4">Pastikan akun Anda menggunakan kata sandi yang panjang dan acak agar
-                        tetap aman.</p>
+                    <p class="text-muted small mb-4">Gunakan kata sandi yang kuat dan unik agar akun tetap aman.</p>
 
-                    <form action="{{ route('password.update') }}" method="POST">
+                    <form action="{{ route('password.update') }}" method="POST" class="d-flex flex-column flex-grow-1">
                         @csrf
                         @method('PUT')
 
-                        <div class="row g-3 mb-3">
-                            <div class="col-12 col-md-6">
-                                <label for="current_password" class="form-label">Kata Sandi Saat Ini</label>
-                                <input type="password"
-                                    class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
-                                    id="current_password" name="current_password" autocomplete="current-password"
-                                    required />
-                                @error('current_password', 'updatePassword')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                        <div class="mb-3">
+                            <label for="current_password" class="form-label">Kata Sandi Saat Ini</label>
+                            <input type="password"
+                                class="form-control @error('current_password', 'updatePassword') is-invalid @enderror"
+                                id="current_password" name="current_password" autocomplete="current-password" required />
+                            @error('current_password', 'updatePassword')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="row g-3 mb-4">
-                            <div class="col-12 col-md-6">
-                                <label for="password" class="form-label">Kata Sandi Baru</label>
-                                <input type="password"
-                                    class="form-control @error('password', 'updatePassword') is-invalid @enderror"
-                                    id="password" name="password" autocomplete="new-password" required />
-                                @error('password', 'updatePassword')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi Baru</label>
-                                <input type="password"
-                                    class="form-control @error('password_confirmation', 'updatePassword') is-invalid @enderror"
-                                    id="password_confirmation" name="password_confirmation" autocomplete="new-password"
-                                    required />
-                                @error('password_confirmation', 'updatePassword')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Kata Sandi Baru</label>
+                            <input type="password"
+                                class="form-control @error('password', 'updatePassword') is-invalid @enderror"
+                                id="password" name="password" autocomplete="new-password" required />
+                            @error('password', 'updatePassword')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Ubah Kata Sandi</button>
+                        <div class="mb-4">
+                            <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi Baru</label>
+                            <input type="password"
+                                class="form-control @error('password_confirmation', 'updatePassword') is-invalid @enderror"
+                                id="password_confirmation" name="password_confirmation" autocomplete="new-password"
+                                required />
+                            @error('password_confirmation', 'updatePassword')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mt-auto">
+                            <button type="submit" class="btn btn-primary">Ubah Kata Sandi</button>
+                        </div>
                     </form>
                 </div>
             </div>
+        </div>
 
-            <!-- 3. Kartu Hapus Akun (Teks & Tombol Sejajar Kiri-Kanan) -->
+        <!-- Baris Bawah (col-12): Hapus Akun (Zona Berbahaya Terpisah) -->
+        <div class="col-12">
             <div class="card border-0 shadow-sm rounded-4 border-start border-danger border-4">
                 <div
                     class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                     <div>
                         <h2 class="h5 fw-semibold text-danger mb-1">Hapus Akun</h2>
                         <p class="text-muted small mb-0">
-                            Setelah akun dihapus, semua data yang terkait akan dihapus secara permanen.
+                            Setelah akun dihapus, semua data yang terkait akan dihapus secara permanen dan tidak dapat
+                            dikembalikan.
                         </p>
                     </div>
 
