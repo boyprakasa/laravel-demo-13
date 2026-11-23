@@ -25,8 +25,7 @@
                 <label for="password" class="form-label">Kata Sandi</label>
                 <a href="/forgot-password" class="small text-decoration-none">Lupa sandi?</a>
             </div>
-            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••"
-                required />
+            <input type="password" class="form-control" id="password" name="password" required />
         </div>
 
         <div class="mb-3 form-check">

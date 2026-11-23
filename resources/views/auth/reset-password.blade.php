@@ -14,14 +14,13 @@
 
         <div class="mb-3">
             <label for="password" class="form-label">Kata Sandi Baru</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required
-                autofocus />
+            <input type="password" class="form-control" id="password" name="password" required autofocus />
         </div>
 
         <div class="mb-3">
             <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi Baru</label>
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                placeholder="••••••••" required />
+                required />
         </div>
 
         <button type="submit" class="btn btn-primary w-100">Simpan Kata Sandi</button>
