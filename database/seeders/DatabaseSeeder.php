@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Category;
 use App\Models\Loan;
 use App\Models\Member;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Buat 1 user
+        User::factory()
+            ->create([
+                'name' => 'Admin',
+                'email' => 'admin@app.test',
+            ]);
+
         // Buat 5 kategori
         Category::factory(5)->create();
 
