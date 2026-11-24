@@ -12,11 +12,11 @@ use Yajra\DataTables\Services\DataTable;
 
 /**
  * DataTable class for managing and displaying Loan records.
- * Handles data retrieval, column definitions, filtering, sorting, and action columns
- * for the Loans resource in the admin interface.
+ * Menangani pengambilan data, definisi kolom, filtering, sorting, dan kolom aksi
+ * untuk resource Pinjaman di antarmuka admin.
  *
- * Each loan record shows the member who borrowed the book, the book title,
- * dates (loan, expected return, actual return), status, and any fines applied.
+ * Setiap record pinjaman menampilkan anggota yang meminjam buku, judul buku,
+ * tanggal-tanggal pinjaman, status, dan denda yang diterapkan.
  */
 class LoansDataTable extends DataTable
 {
@@ -34,7 +34,7 @@ class LoansDataTable extends DataTable
      * - Menambahkan kolom status menampilkan status pinjaman saat ini (on_loan, returned, overdue)
      * - Menambahkan kolom fine menampilkan jumlah denda yang diterapkan
      * - Menambahkan kolom aksi dengan tombol view/edit/delete
-     * - Date formatting for loan_date, expected_return_date, actual_return_date, created_at, updated_at
+     * - Format tanggal loan_date, expected_return_date, actual_return_date, created_at, updated_at
      * - visible(false) on created_at and updated_at to hide from UI
      * - Row ID setting for DataTables JavaScript integration
      */
@@ -42,10 +42,10 @@ class LoansDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
 
-            /** Add sequential row index column */
+            /** Menambahkan kolom index berurutan */
             ->addIndexColumn()
 
-            /** Add action column with view/edit/delete buttons */
+            /** Menambahkan kolom aksi dengan tombol view/edit/delete */
             ->addColumn('action', 'loan.action')
 
             /** Format loan_date using Laravel's format_date helper */

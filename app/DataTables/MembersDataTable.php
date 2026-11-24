@@ -12,8 +12,8 @@ use Yajra\DataTables\Services\DataTable;
 
 /**
  * DataTable class for managing and displaying Member records.
- * Handles data retrieval, column definitions, and action columns
- * for the Members resource in the admin interface.
+ * Menangani pengambilan data, definisi kolom, filtering, sorting, dan kolom aksi
+ * untuk resource Member di antarmuka admin.
  */
 class MembersDataTable extends DataTable
 {
@@ -25,10 +25,10 @@ class MembersDataTable extends DataTable
      *
      * This method configures:
      * - Menambahkan kolom index untuk identifikasi baris
-     * - Columns for name, email, phone, and address
+     * - Kolom untuk nama, email, telepon, dan alamat
      * - Menambahkan kolom aksi dengan tombol view/edit/delete
      * - Format tanggal created_at dan updated_at (tersembunyi dari tampilan)
-     * - Row ID setting for DataTables JavaScript integration
+     * - Menetapkan Row ID untuk integrasi DataTables JavaScript
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {

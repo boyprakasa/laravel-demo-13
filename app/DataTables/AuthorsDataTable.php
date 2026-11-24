@@ -16,6 +16,7 @@ use Yajra\DataTables\Services\DataTable;
  * for the Authors resource in the admin interface.
  *
  * Setiap catatan penulis menampilkan namanya, jumlah buku yang telah ditulis,
+ * dan tombol aksi untuk mengelolanya.
  * and action buttons for managing the author.
  */
 class AuthorsDataTable extends DataTable
@@ -41,7 +42,7 @@ class AuthorsDataTable extends DataTable
             /** Menambahkan kolom index berurutan */
             ->addIndexColumn()
 
-            /** Add books count column showing number of books per author */
+            /** Menambahkan kolom jumlah buku per penulis */
             ->addColumn('books_count', function ($query) {
                 return $query->books()->count();
             })
