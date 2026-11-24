@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Author;
 use App\Models\Book;
 use App\Models\Loan;
 use App\Models\Member;
@@ -37,6 +36,7 @@ class LoanFactory extends Factory
                         ->addDays(rand(1, 10))
                         ->toDateString();
                 }
+
                 // 30% kemungkinan tepat waktu atau early return
                 return Carbon::parse($attributes['expected_return_date'])
                     ->subDays(rand(0, 5))

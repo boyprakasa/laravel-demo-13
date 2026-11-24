@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Book;
-use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,20 +43,20 @@ class Loan extends Model
     protected function fine(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $this->calculateFine(),
-            set: fn($value) => $this->calculateFine() // Selalu hitung ulang saat diset
+            get: fn ($value) => $this->calculateFine(),
+            set: fn ($value) => $this->calculateFine() // Selalu hitung ulang saat diset
         );
     }
 
     public function calculateFine(): float
     {
-        if ($this->status === 'returned' && !$this->actual_return_date) {
+        if ($this->status === 'returned' && ! $this->actual_return_date) {
             return 0.0;
         }
 
         $expectedDate = Carbon::parse($this->expected_return_date)->startOfDay();
 
-        $actualDate   = $this->actual_return_date
+        $actualDate = $this->actual_return_date
             ? Carbon::parse($this->actual_return_date)->startOfDay()
             : Carbon::today();
 
