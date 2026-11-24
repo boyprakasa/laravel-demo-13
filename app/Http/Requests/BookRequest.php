@@ -21,7 +21,7 @@ class BookRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'publication_year' => ['required', 'integer', 'between:1000,' . date('Y')],
+            'publication_year' => ['required', 'integer', 'between:1000,'.date('Y')],
             'description' => ['nullable', 'string'],
             'category_id' => ['required', 'exists:categories,id'],
             'author_ids' => ['array'],
