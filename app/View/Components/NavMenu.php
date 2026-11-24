@@ -21,18 +21,18 @@ class NavMenu extends Component
     public function isActive(array $item): bool
     {
         // Jika diberikan activeWhen khusus, gunakan itu
-        if (!empty($item['activeWhen'])) {
+        if (! empty($item['activeWhen'])) {
             return request()->is($item['activeWhen']);
         }
 
         // Jika diberikan nama route, periksa apakah route saat ini cocok
-        if (!empty($item['route'])) {
+        if (! empty($item['route'])) {
             return request()->routeIs($item['route']);
         }
 
         // Fallback: periksa URL yang diberikan (jika ada)
-        if (!empty($item['url'])) {
-            return request()->is($item['url'] . '*');
+        if (! empty($item['url'])) {
+            return request()->is($item['url'].'*');
         }
 
         return false;
