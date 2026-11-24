@@ -8,37 +8,58 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+/**
+ * DataTable class for managing and displaying Author records.
+ * Handles data retrieval, column definitions, filtering, sorting, and action columns
+ * for the Authors resource in the admin interface.
+ *
+ * Setiap catatan penulis menampilkan namanya, jumlah buku yang telah ditulis,
+ * and action buttons for managing the author.
+ */
 class AuthorsDataTable extends DataTable
 {
     /**
-     * Build the DataTable class.
+     * Build the DataTable class with all columns, filters, and formatting.
      *
-     * @param QueryBuilder<Author> $query Results from query() method.
+     * @param  QueryBuilder<Author>  $query  Results from query() method containing author records.
+     * @return EloquentDataTable An initialized DataTable instance with all columns and actions configured.
+     *
+     * This method configures:
+     * - Menambahkan kolom index untuk identifikasi baris
+     * - Menampilkan jumlah buku per penulis
+     * - Menambahkan kolom aksi dengan tombol view/edit/delete
+     * - Format tanggal created_at dan updated_at (tersembunyi dari tampilan)
+     * - Menambahkan kolom aksi dengan tombol yang dihitung
+     * - Row ID setting for DataTables JavaScript integration
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
 
+            /** Menambahkan kolom index berurutan */
             ->addIndexColumn()
 
+            /** Add books count column showing number of books per author */
             ->addColumn('books_count', function ($query) {
                 return $query->books()->count();
             })
 
+            /** Menambahkan kolom aksi dengan tombol view/edit/delete */
             ->addColumn('action', 'author.action')
 
+            /** Format created_at date using Laravel's format_datetime helper */
             ->editColumn('created_at', function ($query) {
                 return format_datetime($query->created_at);
             })
 
+            /** Format updated_at date using Laravel's format_datetime helper */
             ->editColumn('updated_at', function ($query) {
                 return format_datetime($query->updated_at);
             })
 
+            /** Set HTML row ID for DataTables jQuery integration */
             ->setRowId('id');
     }
 
@@ -69,7 +90,7 @@ class AuthorsDataTable extends DataTable
                 Button::make('pdf'),
                 Button::make('print'),
                 Button::make('reset'),
-                Button::make('reload')
+                Button::make('reload'),
             ]);
     }
 
@@ -116,6 +137,6 @@ class AuthorsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Authors_' . date('YmdHis');
+        return 'Authors_'.date('YmdHis');
     }
 }

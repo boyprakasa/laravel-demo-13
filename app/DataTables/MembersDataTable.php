@@ -8,24 +8,69 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+/**
+ * DataTable class for managing and displaying Member records.
+ * Handles data retrieval, column definitions, and action columns
+ * for the Members resource in the admin interface.
+ */
 class MembersDataTable extends DataTable
 {
     /**
-     * Build the DataTable class.
+     * Build the DataTable class with all columns and formatting.
      *
-     * @param QueryBuilder<Member> $query Results from query() method.
+     * @param  QueryBuilder<Member>  $query  Results from query() method containing member records.
+     * @return EloquentDataTable An initialized DataTable instance with all columns configured.
+     *
+     * This method configures:
+     * - Menambahkan kolom index untuk identifikasi baris
+     * - Columns for name, email, phone, and address
+     * - Menambahkan kolom aksi dengan tombol view/edit/delete
+     * - Format tanggal created_at dan updated_at (tersembunyi dari tampilan)
+     * - Row ID setting for DataTables JavaScript integration
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+
+            /** Menambahkan kolom index berurutan */
             ->addIndexColumn()
 
+            /** Menambahkan kolom nama */
+            ->addColumn('name', function ($member) {
+                return e($member->name);
+            })
+
+            /** Menambahkan kolom email */
+            ->addColumn('email', function ($member) {
+                return e($member->email);
+            })
+
+            /** Menambahkan kolom nomor telepon */
+            ->addColumn('phone_number', function ($member) {
+                return e($member->phone_number);
+            })
+
+            /** Menambahkan kolom alamat */
+            ->addColumn('address', function ($member) {
+                return e($member->address);
+            })
+
+            /** Menambahkan kolom aksi dengan tombol view/edit/delete */
             ->addColumn('action', 'member.action')
 
+            /** Format created_at date using Laravel's format_datetime helper */
+            ->editColumn('created_at', function ($query) {
+                return format_datetime($query->created_at);
+            })
+
+            /** Format updated_at date using Laravel's format_datetime helper */
+            ->editColumn('updated_at', function ($query) {
+                return format_datetime($query->updated_at);
+            })
+
+            /** Hide created_at and updated_at columns from UI display */
             ->setRowId('id');
     }
 
@@ -56,7 +101,7 @@ class MembersDataTable extends DataTable
                 Button::make('pdf'),
                 Button::make('print'),
                 Button::make('reset'),
-                Button::make('reload')
+                Button::make('reload'),
             ]);
     }
 
@@ -105,6 +150,6 @@ class MembersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Members_' . date('YmdHis');
+        return 'Members_'.date('YmdHis');
     }
 }
