@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use App\DataTables\CategoriesDataTable;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar kategori.
+     *
+     * @param  CategoriesDataTable  $dataTable  Instance DataTable untuk menangani query dan rendering.
+     * @return View View untuk menampilkan halaman daftar kategori.
+     *
+     * Menggunakan DataTable class untuk otomatis menangani:
+     * - Paginasi, sorting, dan filtering
+     * - Render view 'category.index'
      */
     public function index(CategoriesDataTable $dataTable)
     {
@@ -17,7 +26,11 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form membuat kategori baru.
+     *
+     * @return View View untuk form penambah kategori.
+     *
+     * Render view 'category.create' untuk form input data kategori.
      */
     public function create()
     {
@@ -25,7 +38,14 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan kategori baru ke storage.
+     *
+     * @param  CategoryRequest  $request  Request yang sudah divalidasi berisi data kategori.
+     * @return JsonResponse Response JSON dengan pesan sukses dan redirect URL.
+     *
+     * Proses penyimpanan:
+     * 1. Buat record kategori baru menggunakan Category::create()
+     * 2. Kembalikan response JSON dengan pesan sukses
      */
     public function store(CategoryRequest $request)
     {
@@ -38,7 +58,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail kategori tertentu.
+     *
+     * @param  Category  $category  Model kategori yang akan ditampilkan detailnya.
+     * @return View View untuk halaman detail kategori.
+     *
+     * Menyewakan view 'category.show' dengan data kategori.
      */
     public function show(Category $category)
     {
@@ -46,7 +71,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form edit kategori.
+     *
+     * @param  Category  $category  Model kategori yang akan diedit.
+     * @return View View form edit kategori.
+     *
+     * Render view 'category.edit' dengan data kategori yang dipilih.
      */
     public function edit(Category $category)
     {
@@ -54,7 +84,15 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbarui data kategori di storage.
+     *
+     * @param  CategoryRequest  $request  Request yang sudah divalidasi berisi data kategori yang akan diupdate.
+     * @param  Category  $category  Model kategori yang akan diperbarui.
+     * @return JsonResponse Response JSON dengan pesan sukses dan redirect URL.
+     *
+     * Proses pengupdatean:
+     * 1. Perbarui data kategori menggunakan $category->update()
+     * 2. Kembalikan response JSON dengan pesan sukses
      */
     public function update(CategoryRequest $request, Category $category)
     {
@@ -67,7 +105,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus kategori dari storage.
+     *
+     * @param  Category  $category  Model kategori yang akan dihapus.
+     * @return JsonResponse Response JSON dengan pesan sukses.
+     *
+     * Menghapus kategori dan mengembalikan response JSON dengan pesan sukses.
      */
     public function destroy(Category $category)
     {

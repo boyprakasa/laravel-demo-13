@@ -11,30 +11,43 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+/**
+ * DataTable untuk menampilkan daftar buku.
+ * Mengelola pengambilan data, definisi kolom, filtering, sorting, dan kolom aksi.
+ */
 class BooksDataTable extends DataTable
 {
     /**
-     * Build the DataTable class.
+     * Bangun DataTable dengan kolom, filter, dan format.
      *
-     * @param QueryBuilder<Book> $query Results from query() method.
+     * @param  QueryBuilder<Book>  $query  Hasil dari query() berisi catatan buku dengan relationship yang dimuat.
+     * @return EloquentDataTable Instance DataTable yang sudah dikonfigurasi dengan semua kolom dan aksi.
+     *
+     * Mengonfigurasi:
+     * - Kolom index berurutan
+     * - Kolom penulis dengan badge
+     * - Kolom aksi dengan tombol view/edit/delete
+     * - Format tanggal created_at dan updated_at
+     * - Raw column untuk rendering HTML (authors, action)
+     * - Row ID untuk integrasi DataTables JavaScript
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
 
+            /** Menambahkan kolom index berurutan */
             ->addIndexColumn()
 
+            /** Menambahkan kolom penulis dengan badge */
             ->addColumn('authors', function ($book) {
                 return $book->authors
-                    ->map(fn($author) => '<span class="badge bg-primary me-1">' . e($author->name) . '</span>')
+                    ->map(fn ($author) => '<span class="badge bg-primary me-1">'.e($author->name).'</span>')
                     ->implode('');
             })
             ->filterColumn('authors', function ($query, $keyword) {
-                $query->whereHas('authors', fn($q) => $q->where('name', 'like', "%{$keyword}%"));
+                $query->whereHas('authors', fn ($q) => $q->where('name', 'like', "%{$keyword}%"));
             })
             ->orderColumn('authors', function ($query, $order) {
                 $query->orderBy(
@@ -47,18 +60,23 @@ class BooksDataTable extends DataTable
                 );
             })
 
+            /** Menambahkan kolom aksi dengan tombol view/edit/delete */
             ->addColumn('action', 'book.action')
 
+            /** Format tanggal created_at menggunakan helper format_datetime Laravel */
             ->editColumn('created_at', function ($query) {
                 return format_datetime($query->created_at);
             })
 
+            /** Format tanggal updated_at menggunakan helper format_datetime Laravel */
             ->editColumn('updated_at', function ($query) {
                 return format_datetime($query->updated_at);
             })
 
+            /** Menandai kolom sebagai raw untuk rendering HTML */
             ->rawColumns(['action', 'authors'])
 
+            /** Menetapkan HTML row ID untuk integrasi DataTables jQuery */
             ->setRowId('id');
     }
 
@@ -100,10 +118,10 @@ class BooksDataTable extends DataTable
             ])
             ->parameters([
                 'layout' => [
-                    'topStart'    => ['pageLength', 'buttons'],
-                    'topEnd'      => 'search',
+                    'topStart' => ['pageLength', 'buttons'],
+                    'topEnd' => 'search',
                     'bottomStart' => 'info',
-                    'bottomEnd'   => 'paging',
+                    'bottomEnd' => 'paging',
                 ],
             ]);
     }
@@ -162,7 +180,7 @@ class BooksDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Books_' . date('YmdHis');
+        return 'Books_'.date('YmdHis');
     }
 
     public function pdf(): BinaryFileResponse
@@ -176,7 +194,7 @@ class BooksDataTable extends DataTable
             ->save($path);
 
         return response()
-            ->download($path, $this->getFilename() . '.pdf')
+            ->download($path, $this->getFilename().'.pdf')
             ->deleteFileAfterSend(true);
     }
 }
